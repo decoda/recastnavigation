@@ -43,6 +43,7 @@
 #include "Sample_TileMesh.h"
 #include "Sample_TempObstacles.h"
 #include "Sample_Debug.h"
+#include "Command.h"
 
 #ifdef WIN32
 #	define snprintf _snprintf
@@ -69,8 +70,15 @@ static SampleItem g_samples[] =
 };
 static const int g_nsamples = sizeof(g_samples) / sizeof(SampleItem);
 
-int main(int /*argc*/, char** /*argv*/)
+int main(int argc, char** argv)
 {
+	if (argc > 1)
+	{
+		command(argc, argv);
+		return 0;
+	}
+	::ShowWindow(::GetConsoleWindow(), SW_HIDE);
+
 	// Init SDL
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
 	{
@@ -713,6 +721,7 @@ int main(int /*argc*/, char** /*argv*/)
 				if (sample && geom)
 				{
 					sample->handleMeshChanged(geom);
+					sample->meshName = meshName;
 				}
 
 				if (geom || sample)

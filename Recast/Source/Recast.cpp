@@ -469,6 +469,11 @@ bool rcBuildCompactHeightfield(rcContext* ctx, const int walkableHeight, const i
 			// If there are no spans at this cell, just leave the data to index=0, count=0.
 			if (!s) continue;
 			rcCompactCell& c = chf.cells[x+y*w];
+			if (idx > 0xffffff)
+			{
+				ctx->log(RC_LOG_ERROR, "rcBuildCompactHeightfield: Spans index too large 'chf.spans' (%d)", spanCount);
+				return false;
+			}
 			c.index = idx;
 			c.count = 0;
 			while (s)

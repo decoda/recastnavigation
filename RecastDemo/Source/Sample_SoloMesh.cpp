@@ -44,7 +44,7 @@
 
 
 Sample_SoloMesh::Sample_SoloMesh() :
-	m_keepInterResults(true),
+	m_keepInterResults(false),
 	m_totalBuildTimeMs(0),
 	m_triareas(0),
 	m_solid(0),
@@ -100,7 +100,24 @@ void Sample_SoloMesh::handleSettings()
 	if (imguiButton("Load"))
 	{
 		dtFreeNavMesh(m_navMesh);
-		m_navMesh = Sample::loadAll("solo_navmesh.bin");
+
+		bool loaded = false;
+		if (meshName != "")
+		{
+			std::string binName = meshName.substr(0, meshName.rfind(".")) + ".bin";
+			std::string binPath = "Meshes/" + binName;
+			FILE* fp = fopen(binPath.c_str(), "rb");
+			if (fp)
+			{
+				fclose(fp);
+				m_navMesh = Sample:loadAll(binPath.c_str());
+				loaded = true;
+			}
+		}
+		if (!loaded)
+		{
+			m_navMesh = Sample::loadAll("solo_navmesh.bin");
+		}
 		m_navQuery->init(m_navMesh, 2048);
 	}
 

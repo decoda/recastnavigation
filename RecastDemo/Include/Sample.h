@@ -21,7 +21,7 @@
 
 #include "Recast.h"
 #include "SampleInterfaces.h"
-
+#include <string>
 
 /// Tool types.
 enum SampleToolType
@@ -179,6 +179,9 @@ public:
 
 	void resetCommonSettings();
 	void handleCommonSettings();
+
+	void saveAll(const char* path);
+	std::string meshName;
 
 private:
 	// Explicitly disabled copy constructor and copy assignment operator.

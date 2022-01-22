@@ -447,3 +447,8 @@ void Sample::saveAll(const char* path, const dtNavMesh* mesh)
 
 	fclose(fp);
 }
+
+void Sample::saveAll(const char* path)
+{
+	saveAll(path, m_navMesh);
+}
